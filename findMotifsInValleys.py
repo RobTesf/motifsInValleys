@@ -1,5 +1,7 @@
 #! python2.7
 
+# courtesy of Young and Bradner Labs
+
 ######################
 #
 # Core Regulatory Circuits
@@ -39,11 +41,11 @@ import pickle
 
 def findValleys(regionsLoci, bamFile, projectName, projectFolder, cutoff = 0.2):
     '''
-    takes in the super dict
-    returns a dictionary of refseqs with all valley loci that are associated
+    takes in the regions loci
+    returns a list of valley loci
     '''
 
-    print 'IDENTIFYING VALLEYS IN SUPER ENHANCERS'
+    print 'IDENTIFYING VALLEYS IN REGIONS OF INTEREST'
 
     valleyBED = []
     valleyDict = {}
@@ -122,7 +124,7 @@ def scoreValley(locus, bamFile, projectName, projectFolder):
 
     return scoreArray
 
-
+# Haven't found any use of this function yet, but might be of use if multiple bams could be analysed
 def stitchValleys(valleyList):
     '''
     takes a list of valley loci
@@ -168,7 +170,7 @@ def gaussianSmooth(readList, degree=5):
 def generateSubpeakFASTA(regionsLoci, subpeaks, genomeDirectory, projectName, projectFolder, constExtension):
     '''
     from a BED file of constituents
-    generate a FASTA for the consituients contained within the canidate supers
+    generate a FASTA for the consituients contained within the regions of interest
     '''
 
     subpeakBED = [['track name=' + projectName + ' color=204,0,204']]
@@ -207,8 +209,7 @@ def generateSubpeakFASTA(regionsLoci, subpeaks, genomeDirectory, projectName, pr
 
 def findMotifs(projectFolder, projectName, motifConvertFile, motifDatabaseFile):
     '''
-    takes the refseq to subpeak seq dict
-    returns the networkx object with all connections
+    Using the subpeaks.fa file, find motifs with fimo
     '''
 
     # Create a dictionary to call motif names keyed on gene names
